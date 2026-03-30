@@ -45,8 +45,34 @@ int main(int argc, char* argv[]) {
     cout << "-----------------------------------" << endl;
 
     if (!isBatchMode) {
-        // O menu interativo vai ser feito aqui mais tarde!
-        cout << "[MENU INTERATIVO AINDA EM CONSTRUCAO]" << endl;
+        int opcao = -1;
+        while (opcao != 0) {
+            cout << "\n=== MENU DA CONFERENCIA ===" << endl;
+            cout << "1. Testar Escrita de Output (Dummy Data)" << endl;
+            cout << "2. Gerar Atribuicoes (Max-Flow - A cargo da Pessoa 1)" << endl;
+            cout << "3. Analise de Risco (A cargo da Pessoa 1)" << endl;
+            cout << "0. Sair" << endl;
+            cout << "Escolha uma opcao: ";
+            cin >> opcao;
+
+            if (opcao == 1) {
+                // TU VAIS TESTAR A TUA FUNÇÃO AQUI!
+                vector<Assignment> dummyData = {
+                    {87, 2, 1},
+                    {31, 1, 3}
+                };
+                escreverOutput(config.outputFileName, dummyData);
+            }
+            else if (opcao == 2) {
+                cout << "Ainda em construcao pela Pessoa 1..." << endl;
+            }
+            else if (opcao == 3) {
+                cout << "Ainda em construcao pela Pessoa 1..." << endl;
+            }
+        }
+    } else {
+        // MODO BATCH (Para o professor testar via script)
+        cout << "A executar algoritmo em modo Batch..." << endl;
     }
 
     // O GRAFO COMEÇA A SER CONSTRUIDO AQUI ABAIXO!
