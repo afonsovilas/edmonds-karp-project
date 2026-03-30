@@ -16,4 +16,4 @@ void escreverOutput(const std::string& filename, std::vector<Assignment>& assign
 void escreverMissingReviews(const std::string& filename, std::vector<MissingReview>& missing);
 
 void escreverRiskAnalysis(const std::string& filename, int riskLevel, std::vector<int>& riskyReviewers);
-#endif //PROJECT1SAMPLEDATASETS_PARSER_H
+#endif

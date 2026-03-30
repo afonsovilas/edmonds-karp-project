@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
         outputFile = argv[3];
     } else {
         cout << "Arrancar em Modo Normal (Terminal)...\n";
-        inputFile = "../Project1SampleDatasets/input/dataset1.csv"; // Ajusta para o default local
+        inputFile = "../Project1SampleDatasets/input/dataset1.csv"; // Ajustar para o default local
     }
 
     vector<Submission> submissoes;
@@ -99,7 +99,6 @@ int main(int argc, char* argv[]) {
                     cout << "Aviso: Nenhuma atribuicao foi gerada (O grafo pode estar vazio)." << endl;
                 }
 
-                //  ADICIONAR AQUI: O código para as Missing Reviews
                 if (!sucesso) {
                     cout << "A gerar registo de Missing Reviews..." << endl;
                     vector<MissingReview> missing;
@@ -190,7 +189,56 @@ int main(int argc, char* argv[]) {
         }
     } else {
         cout << "A executar algoritmo em modo Batch..." << endl;
-        // O modo batch pode ser expandido depois se o professor exigir execução invisível
+
+        Graph<int> conferenciaGraph;
+        int SOURCE_ID = 0;
+        int SINK_ID = 999999;
+
+        conferenciaGraph.addVertex(SOURCE_ID);
+        conferenciaGraph.addVertex(SINK_ID);
+
+        for (const auto& r : revisores) {
+            conferenciaGraph.addVertex(r.id);
+            addFlowEdge(&conferenciaGraph, SOURCE_ID, r.id, config.maxReviewsPerReviewer);
+        }
+
+        for (const auto& s : submissoes) {
+            conferenciaGraph.addVertex(s.id);
+            addFlowEdge(&conferenciaGraph, s.id, SINK_ID, config.minReviewsPerSubmission);
+        }
+
+        for (const auto& r : revisores) {
+            for (const auto& s : submissoes) {
+                if (r.primaryExpertise == s.primaryDomain) {
+                    addFlowEdge(&conferenciaGraph, r.id, s.id, 1);
+                }
+            }
+        }
+
+        edmondsKarp(&conferenciaGraph, SOURCE_ID, SINK_ID);
+        vector<Assignment> atribuicoes = extrairAtribuicoes(&conferenciaGraph, revisores);
+        bool sucesso = verificarSucesso(&conferenciaGraph, SINK_ID, submissoes.size(), config.minReviewsPerSubmission);
+
+        if (!atribuicoes.empty()) {
+            escreverOutput(config.outputFileName, atribuicoes);
+        }
+
+        if (!sucesso) {
+            vector<MissingReview> missing;
+            for (const auto& s : submissoes) {
+                Vertex<int>* vSub = conferenciaGraph.findVertex(s.id);
+                double fluxoDesteArtigo = 0;
+                for (auto e : vSub->getAdj()) {
+                    if (e->getDest()->getInfo() == SINK_ID) {
+                        fluxoDesteArtigo = e->getFlow();
+                    }
+                }
+                if (fluxoDesteArtigo < config.minReviewsPerSubmission) {
+                    missing.push_back({s.id, s.primaryDomain, (int)(config.minReviewsPerSubmission - fluxoDesteArtigo)});
+                }
+            }
+            escreverMissingReviews(config.outputFileName, missing);
+        }
     }
 
     return 0;

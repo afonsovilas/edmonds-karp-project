@@ -19,11 +19,7 @@ void addFlowEdge(Graph<T> *g, const T &source, const T &dest, double capacity) {
     }
 }
 
-// ============================================================================
-// TAREFA 1: O EDMONDS-KARP (T2.1)
-// ============================================================================
-
-// 1. O BFS para encontrar caminhos de aumento
+// O BFS para encontrar caminhos de aumento
 template <class T>
 bool findAugmentingPath(Graph<T> *g, Vertex<T> *s, Vertex<T> *t, Vertex<T>* ignoredNode = nullptr) {
     for (auto v : g->getVertexSet()) {
