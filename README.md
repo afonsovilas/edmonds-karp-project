@@ -49,14 +49,24 @@ Para um dataset real com centenas de revisores, mesmo um K=3 resultaria em milh�
 
 
 4. Exemplo de Input Não-Trivial e Output
+   
 Este exemplo demonstra um sistema que é perfeitamente robusto a qualquer falha individual (K=1), mas que entra em colapso quando um par específico falha ($K=2$).
+
 •	Cenário de Input:
   o	3 Submissões (S1, S2, S3), necessitando de 1 revisão cada. (Fluxo total necessário = 3).
+
   o	4 Revisores (R1, R2, R3, R4), cada um com uma capacidade máxima de 1 revisão.
+  
   o	Ligações (Matches possíveis):
+  
   	S1 está ligada a R1 e R2.
+  
   	S2 está ligada a R3 e R4.
+  
   	S3 está ligada a R1 e R4.
+  
 •	Execução (Verificação $K=1$): Se o R1 faltar sozinho, S1 usa R2, e S3 usa R4. (Fluxo = 3, Sucesso). Se o R4 faltar sozinho, S2 usa R3, e S3 usa R1. (Fluxo = 3, Sucesso). O sistema sobrevive a qualquer ausência isolada.
+
 •	Execução (Verificação $K=2$): O algoritmo testa a combinação {R1, R4}. Se tanto o R1 como o R4 estiverem ausentes, os únicos revisores restantes são R2 e R3. A capacidade total da rede desce para 2, o que é insuficiente para cobrir as 3 submissões.
+
 •	Output: O algoritmo identifica e devolve corretamente o par {R1, R4} como um grupo de risco crítico, evidenciando a correção de combinar a pesquisa combinatória com o fluxo em redes.
