@@ -27,7 +27,7 @@ void addFlowEdge(Graph<T> *g, const T &source, const T &dest, double capacity) {
 
 // 1. O BFS para encontrar caminhos de aumento
 template <class T>
-bool findAugmentingPath(Graph<T> *g, Vertex<T> *s, Vertex<T> *t) {
+bool findAugmentingPath(Graph<T> *g, Vertex<T> *s, Vertex<T> *t, Vertex<T>* ignoredNode = nullptr) {
     for (auto v : g->getVertexSet()) {
         v->setVisited(false);
     }
@@ -44,7 +44,7 @@ bool findAugmentingPath(Graph<T> *g, Vertex<T> *s, Vertex<T> *t) {
             Vertex<T> *w = e->getDest();
             double residual = e->getWeight() - e->getFlow();
 
-            if (!w->isVisited() && residual > 0) {
+            if (!w->isVisited() && residual > 0 && w != ignoredNode) {
                 w->setVisited(true);
                 w->setPath(e);
                 q.push(w);
@@ -55,7 +55,7 @@ bool findAugmentingPath(Graph<T> *g, Vertex<T> *s, Vertex<T> *t) {
 }
 
 template <class T>
-void edmondsKarp(Graph<T> *g, const T &source, const T &target) {
+void edmondsKarp(Graph<T> *g, const T &source, const T &target, Vertex<T>* ignoredNode = nullptr) {
     Vertex<T> *s = g->findVertex(source);
     Vertex<T> *t = g->findVertex(target);
 
@@ -67,16 +67,13 @@ void edmondsKarp(Graph<T> *g, const T &source, const T &target) {
         }
     }
 
-    while (findAugmentingPath(g, s, t)) {
-
+    while (findAugmentingPath(g, s, t, ignoredNode)) {
         double bottleneck = INF;
         Vertex<T> *v = t;
         while (v != s) {
             Edge<T> *e = v->getPath();
             double residual = e->getWeight() - e->getFlow();
-            if (residual < bottleneck) {
-                bottleneck = residual;
-            }
+            if (residual < bottleneck) bottleneck = residual;
             v = e->getOrig();
         }
 
@@ -84,13 +81,39 @@ void edmondsKarp(Graph<T> *g, const T &source, const T &target) {
         while (v != s) {
             Edge<T> *e = v->getPath();
             e->setFlow(e->getFlow() + bottleneck);
-
             if (e->getReverse() != nullptr) {
                 e->getReverse()->setFlow(e->getReverse()->getFlow() - bottleneck);
             }
             v = e->getOrig();
         }
     }
+}
+
+template <class T>
+std::vector<int> analiseDeRisco(Graph<T> *g, const T& sourceId, const T& sinkId, const std::vector<Reviewer>& revisores, int numSubmissoes, int minReviews) {
+    std::vector<int> riskList;
+    int revisoesNecessarias = numSubmissoes * minReviews;
+
+    for (const auto& rev : revisores) {
+        Vertex<T>* vRev = g->findVertex(rev.id);
+        if (vRev == nullptr) continue;
+
+        edmondsKarp(g, sourceId, sinkId, vRev);
+
+        double fluxoTotal = 0;
+        Vertex<T>* sink = g->findVertex(sinkId);
+        if (sink != nullptr) {
+            for (auto e : sink->getIncoming()) {
+                fluxoTotal += e->getFlow();
+            }
+        }
+
+        if (fluxoTotal < revisoesNecessarias) {
+            riskList.push_back(rev.id);
+        }
+    }
+
+    return riskList;
 }
 
 template <class T>
