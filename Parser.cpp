@@ -3,6 +3,7 @@
 //
 
 #include "Parser.h"
+#include "models.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -16,8 +17,7 @@ string trim(const string& str) {
     return str.substr(first, (last - first + 1));
 }
 
-void lerFicheiro(const string& filename, vector<Submission>& submissoes, vector<Reviewer>& revisores) {
-    ifstream file(filename);
+void lerFicheiro(const string& filename, vector<Submission>& submissoes, vector<Reviewer>& revisores, Config& config) {    ifstream file(filename);
     if (!file.is_open()) {
         cerr << "Erro: Nao foi possivel abrir o ficheiro " << filename << "!" << endl;
         return;
@@ -74,6 +74,26 @@ void lerFicheiro(const string& filename, vector<Submission>& submissoes, vector<
                 if (!token.empty()) r.secondaryExpertise = stoi(token);
             }
             revisores.push_back(r);
+        }
+        else if (seccaoAtual == 3) {
+            // Formato: "Chave, Valor"
+            string key, val;
+            if (getline(ss, key, ',')) {
+                if (getline(ss, val)) {
+                    key = trim(key);
+                    val = trim(val);
+
+                    if (key == "MinReviewsPerSubmission") config.minReviewsPerSubmission = stoi(val);
+                    else if (key == "MaxReviewsPerReviewer") config.maxReviewsPerReviewer = stoi(val);
+                    else if (key == "PrimaryReviewerExpertise") config.primaryReviewerExpertise = stoi(val);
+                    else if (key == "SecondaryReviewerExpertise") config.secondaryReviewerExpertise = stoi(val);
+                    else if (key == "PrimarySubmissionDomain") config.primarySubmissionDomain = stoi(val);
+                    else if (key == "SecondarySubmissionDomain") config.secondarySubmissionDomain = stoi(val);
+                    else if (key == "GenerateAssignments") config.generateAssignments = stoi(val);
+                    else if (key == "RiskAnalysis") config.riskAnalysis = stoi(val);
+                    else if (key == "OutputFileName") config.outputFileName = val;
+                }
+            }
         }
     }
     file.close();

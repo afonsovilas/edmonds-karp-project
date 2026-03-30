@@ -7,19 +7,7 @@
 
 #include <string>
 #include <vector>
+#include "models.h"
 
-struct Submission {
-    int id;
-    std::string title, authors, email;
-    int primaryDomain, secondaryDomain;
-};
-
-struct Reviewer {
-    int id;
-    std::string name, email;
-    int primaryExpertise, secondaryExpertise;
-};
-
-void lerFicheiro(const std::string& filename, std::vector<Submission>& submissoes, std::vector<Reviewer>& revisores);
-
+void lerFicheiro(const std::string& filename, std::vector<Submission>& submissoes, std::vector<Reviewer>& revisores, Config& config);
 #endif //PROJECT1SAMPLEDATASETS_PARSER_H
