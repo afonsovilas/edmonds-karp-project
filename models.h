@@ -38,5 +38,11 @@ struct Config {
     int riskAnalysis = 0;
     string outputFileName = "output.csv"; // Valor por defeito
 };
+// Adiciona isto no models.h, antes do #endif
+struct Assignment {
+    int submissionId;
+    int reviewerId;
+    int matchDomain;
+};
 
 #endif //PROJECT1SAMPLEDATASETS_MODELS_H

@@ -7,17 +7,19 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 using namespace std;
 
 string trim(const string& str) {
-    size_t first = str.find_first_not_of(" \t\r\n");
+    size_t first = str.find_first_not_of(" \t\r\n\"");
     if (string::npos == first) return "";
-    size_t last = str.find_last_not_of(" \t\r\n");
+    size_t last = str.find_last_not_of(" \t\r\n\"");
     return str.substr(first, (last - first + 1));
 }
 
-void lerFicheiro(const string& filename, vector<Submission>& submissoes, vector<Reviewer>& revisores, Config& config) {    ifstream file(filename);
+void lerFicheiro(const string& filename, vector<Submission>& submissoes, vector<Reviewer>& revisores, Config& config) {
+    ifstream file(filename);
     if (!file.is_open()) {
         cerr << "Erro: Nao foi possivel abrir o ficheiro " << filename << "!" << endl;
         return;
@@ -97,4 +99,45 @@ void lerFicheiro(const string& filename, vector<Submission>& submissoes, vector<
         }
     }
     file.close();
+}
+
+
+bool sortBySubmission(const Assignment& a, const Assignment& b) {
+    if (a.submissionId != b.submissionId) return a.submissionId < b.submissionId;
+    return a.reviewerId < b.reviewerId;
+}
+
+bool sortByReviewer(const Assignment& a, const Assignment& b) {
+    if (a.reviewerId != b.reviewerId) return a.reviewerId < b.reviewerId;
+    return a.submissionId < b.submissionId;
+}
+
+void escreverOutput(const string& filename, vector<Assignment>& assignments) {
+    ofstream file(filename);
+    if (!file.is_open()) {
+        cerr << "Erro: Nao foi possivel criar o ficheiro de output " << filename << "!" << endl;
+        return;
+    }
+
+    //  Bloco ordenado por SubmissionId
+    sort(assignments.begin(), assignments.end(), sortBySubmission);
+    file << "#SubmissionId,ReviewerId,Match\n";
+    for (const auto& a : assignments) {
+        file << a.submissionId << ", " << a.reviewerId << ", " << a.matchDomain << "\n";
+    }
+
+    file << "\n";
+
+    //  Bloco ordenado por ReviewerId
+    sort(assignments.begin(), assignments.end(), sortByReviewer);
+    file << "#ReviewerId,SubmissionId,Match\n";
+    for (const auto& a : assignments) {
+        file << a.reviewerId << ", " << a.submissionId << ", " << a.matchDomain << "\n";
+    }
+
+
+    file << "#Total: " << assignments.size() << "\n";
+
+    file.close();
+    cout << "-> Ficheiro " << filename << " gerado com sucesso!\n";
 }
