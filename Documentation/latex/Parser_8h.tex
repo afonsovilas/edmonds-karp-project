@@ -1,0 +1,59 @@
+\hypertarget{Parser_8h}{}\doxysection{Parser.\+h File Reference}
+\label{Parser_8h}\index{Parser.h@{Parser.h}}
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include \char`\"{}models.\+h\char`\"{}}\newline
+Include dependency graph for Parser.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=203pt]{Parser_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=226pt]{Parser_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{Parser_8h_a1f590622e2bde16881b39cccb9c0ea25}{ler\+Ficheiro}} (const std\+::string \&filename, std\+::vector$<$ \mbox{\hyperlink{structSubmission}{Submission}} $>$ \&submissoes, std\+::vector$<$ \mbox{\hyperlink{structReviewer}{Reviewer}} $>$ \&revisores, \mbox{\hyperlink{structConfig}{Config}} \&config)
+\item 
+void \mbox{\hyperlink{Parser_8h_a486acbe111e6a826c7aecada818b8855}{escrever\+Output}} (const std\+::string \&filename, std\+::vector$<$ \mbox{\hyperlink{structAssignment}{Assignment}} $>$ \&assignments)
+\item 
+void \mbox{\hyperlink{Parser_8h_a8aa073823c49d381814595d729986ad4}{escrever\+Missing\+Reviews}} (const std\+::string \&filename, std\+::vector$<$ \mbox{\hyperlink{structMissingReview}{Missing\+Review}} $>$ \&missing)
+\item 
+void \mbox{\hyperlink{Parser_8h_ad1a1fe087017e84058e60aa41689d80d}{escrever\+Risk\+Analysis}} (const std\+::string \&filename, \mbox{\hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}} risk\+Level, std\+::vector$<$ \mbox{\hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}} $>$ \&risky\+Reviewers)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{Parser_8h_a8aa073823c49d381814595d729986ad4}\label{Parser_8h_a8aa073823c49d381814595d729986ad4}} 
+\index{Parser.h@{Parser.h}!escreverMissingReviews@{escreverMissingReviews}}
+\index{escreverMissingReviews@{escreverMissingReviews}!Parser.h@{Parser.h}}
+\doxysubsubsection{\texorpdfstring{escreverMissingReviews()}{escreverMissingReviews()}}
+{\footnotesize\ttfamily void escrever\+Missing\+Reviews (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename,  }\item[{std\+::vector$<$ \mbox{\hyperlink{structMissingReview}{Missing\+Review}} $>$ \&}]{missing }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{Parser_8h_a486acbe111e6a826c7aecada818b8855}\label{Parser_8h_a486acbe111e6a826c7aecada818b8855}} 
+\index{Parser.h@{Parser.h}!escreverOutput@{escreverOutput}}
+\index{escreverOutput@{escreverOutput}!Parser.h@{Parser.h}}
+\doxysubsubsection{\texorpdfstring{escreverOutput()}{escreverOutput()}}
+{\footnotesize\ttfamily void escrever\+Output (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename,  }\item[{std\+::vector$<$ \mbox{\hyperlink{structAssignment}{Assignment}} $>$ \&}]{assignments }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{Parser_8h_ad1a1fe087017e84058e60aa41689d80d}\label{Parser_8h_ad1a1fe087017e84058e60aa41689d80d}} 
+\index{Parser.h@{Parser.h}!escreverRiskAnalysis@{escreverRiskAnalysis}}
+\index{escreverRiskAnalysis@{escreverRiskAnalysis}!Parser.h@{Parser.h}}
+\doxysubsubsection{\texorpdfstring{escreverRiskAnalysis()}{escreverRiskAnalysis()}}
+{\footnotesize\ttfamily void escrever\+Risk\+Analysis (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename,  }\item[{\mbox{\hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}}}]{risk\+Level,  }\item[{std\+::vector$<$ \mbox{\hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}} $>$ \&}]{risky\+Reviewers }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{Parser_8h_a1f590622e2bde16881b39cccb9c0ea25}\label{Parser_8h_a1f590622e2bde16881b39cccb9c0ea25}} 
+\index{Parser.h@{Parser.h}!lerFicheiro@{lerFicheiro}}
+\index{lerFicheiro@{lerFicheiro}!Parser.h@{Parser.h}}
+\doxysubsubsection{\texorpdfstring{lerFicheiro()}{lerFicheiro()}}
+{\footnotesize\ttfamily void ler\+Ficheiro (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename,  }\item[{std\+::vector$<$ \mbox{\hyperlink{structSubmission}{Submission}} $>$ \&}]{submissoes,  }\item[{std\+::vector$<$ \mbox{\hyperlink{structReviewer}{Reviewer}} $>$ \&}]{revisores,  }\item[{\mbox{\hyperlink{structConfig}{Config}} \&}]{config }\end{DoxyParamCaption})}
+

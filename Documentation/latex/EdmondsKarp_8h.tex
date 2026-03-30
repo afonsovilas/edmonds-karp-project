@@ -1,0 +1,82 @@
+\hypertarget{EdmondsKarp_8h}{}\doxysection{Edmonds\+Karp.\+h File Reference}
+\label{EdmondsKarp_8h}\index{EdmondsKarp.h@{EdmondsKarp.h}}
+{\ttfamily \#include \char`\"{}data\+\_\+structures/\+Graph.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$queue$>$}\newline
+{\ttfamily \#include \char`\"{}models.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+Include dependency graph for Edmonds\+Karp.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{EdmondsKarp_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=173pt]{EdmondsKarp_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class T $>$ }\\void \mbox{\hyperlink{EdmondsKarp_8h_a0759c6ad42f1005cda0c4b3c4f5f0113}{add\+Flow\+Edge}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ T $>$ $\ast$g, const T \&source, const T \&dest, double capacity)
+\item 
+{\footnotesize template$<$class T $>$ }\\bool \mbox{\hyperlink{EdmondsKarp_8h_a7a3382651e9d34f152ea17f8be47909c}{find\+Augmenting\+Path}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ T $>$ $\ast$g, \mbox{\hyperlink{classVertex}{Vertex}}$<$ T $>$ $\ast$s, \mbox{\hyperlink{classVertex}{Vertex}}$<$ T $>$ $\ast$t, \mbox{\hyperlink{classVertex}{Vertex}}$<$ T $>$ $\ast$ignored\+Node=nullptr)
+\item 
+{\footnotesize template$<$class T $>$ }\\void \mbox{\hyperlink{EdmondsKarp_8h_a4d3ae601d899b12108523e134ef33e09}{edmonds\+Karp}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ T $>$ $\ast$g, const T \&source, const T \&target, \mbox{\hyperlink{classVertex}{Vertex}}$<$ T $>$ $\ast$ignored\+Node=nullptr)
+\item 
+{\footnotesize template$<$class T $>$ }\\std\+::vector$<$ \mbox{\hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}} $>$ \mbox{\hyperlink{EdmondsKarp_8h_a3edb40e242f7c705b4d4fb0420702fa0}{analise\+De\+Risco}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ T $>$ $\ast$g, const T \&source\+Id, const T \&sink\+Id, const std\+::vector$<$ \mbox{\hyperlink{structReviewer}{Reviewer}} $>$ \&revisores, \mbox{\hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}} num\+Submissoes, \mbox{\hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}} min\+Reviews)
+\item 
+{\footnotesize template$<$class T $>$ }\\vector$<$ \mbox{\hyperlink{structAssignment}{Assignment}} $>$ \mbox{\hyperlink{EdmondsKarp_8h_a544dfda58406e1c54a07e3ed323cb2c3}{extrair\+Atribuicoes}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ T $>$ $\ast$g, const vector$<$ \mbox{\hyperlink{structReviewer}{Reviewer}} $>$ \&revisores)
+\item 
+{\footnotesize template$<$class T $>$ }\\bool \mbox{\hyperlink{EdmondsKarp_8h_a47204852e1378eb19afa6158aecc7c50}{verificar\+Sucesso}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ T $>$ $\ast$g, const T \&sink\+Id, \mbox{\hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}} num\+Submissoes, \mbox{\hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}} min\+Reviews)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{EdmondsKarp_8h_a0759c6ad42f1005cda0c4b3c4f5f0113}\label{EdmondsKarp_8h_a0759c6ad42f1005cda0c4b3c4f5f0113}} 
+\index{EdmondsKarp.h@{EdmondsKarp.h}!addFlowEdge@{addFlowEdge}}
+\index{addFlowEdge@{addFlowEdge}!EdmondsKarp.h@{EdmondsKarp.h}}
+\doxysubsubsection{\texorpdfstring{addFlowEdge()}{addFlowEdge()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+void add\+Flow\+Edge (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ T $>$ $\ast$}]{g,  }\item[{const T \&}]{source,  }\item[{const T \&}]{dest,  }\item[{double}]{capacity }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{EdmondsKarp_8h_a3edb40e242f7c705b4d4fb0420702fa0}\label{EdmondsKarp_8h_a3edb40e242f7c705b4d4fb0420702fa0}} 
+\index{EdmondsKarp.h@{EdmondsKarp.h}!analiseDeRisco@{analiseDeRisco}}
+\index{analiseDeRisco@{analiseDeRisco}!EdmondsKarp.h@{EdmondsKarp.h}}
+\doxysubsubsection{\texorpdfstring{analiseDeRisco()}{analiseDeRisco()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+std\+::vector$<$\mbox{\hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}}$>$ analise\+De\+Risco (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ T $>$ $\ast$}]{g,  }\item[{const T \&}]{source\+Id,  }\item[{const T \&}]{sink\+Id,  }\item[{const std\+::vector$<$ \mbox{\hyperlink{structReviewer}{Reviewer}} $>$ \&}]{revisores,  }\item[{\mbox{\hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}}}]{num\+Submissoes,  }\item[{\mbox{\hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}}}]{min\+Reviews }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{EdmondsKarp_8h_a4d3ae601d899b12108523e134ef33e09}\label{EdmondsKarp_8h_a4d3ae601d899b12108523e134ef33e09}} 
+\index{EdmondsKarp.h@{EdmondsKarp.h}!edmondsKarp@{edmondsKarp}}
+\index{edmondsKarp@{edmondsKarp}!EdmondsKarp.h@{EdmondsKarp.h}}
+\doxysubsubsection{\texorpdfstring{edmondsKarp()}{edmondsKarp()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+void edmonds\+Karp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ T $>$ $\ast$}]{g,  }\item[{const T \&}]{source,  }\item[{const T \&}]{target,  }\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ T $>$ $\ast$}]{ignored\+Node = {\ttfamily nullptr} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{EdmondsKarp_8h_a544dfda58406e1c54a07e3ed323cb2c3}\label{EdmondsKarp_8h_a544dfda58406e1c54a07e3ed323cb2c3}} 
+\index{EdmondsKarp.h@{EdmondsKarp.h}!extrairAtribuicoes@{extrairAtribuicoes}}
+\index{extrairAtribuicoes@{extrairAtribuicoes}!EdmondsKarp.h@{EdmondsKarp.h}}
+\doxysubsubsection{\texorpdfstring{extrairAtribuicoes()}{extrairAtribuicoes()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+vector$<$\mbox{\hyperlink{structAssignment}{Assignment}}$>$ extrair\+Atribuicoes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ T $>$ $\ast$}]{g,  }\item[{const vector$<$ \mbox{\hyperlink{structReviewer}{Reviewer}} $>$ \&}]{revisores }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{EdmondsKarp_8h_a7a3382651e9d34f152ea17f8be47909c}\label{EdmondsKarp_8h_a7a3382651e9d34f152ea17f8be47909c}} 
+\index{EdmondsKarp.h@{EdmondsKarp.h}!findAugmentingPath@{findAugmentingPath}}
+\index{findAugmentingPath@{findAugmentingPath}!EdmondsKarp.h@{EdmondsKarp.h}}
+\doxysubsubsection{\texorpdfstring{findAugmentingPath()}{findAugmentingPath()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+bool find\+Augmenting\+Path (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ T $>$ $\ast$}]{g,  }\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ T $>$ $\ast$}]{s,  }\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ T $>$ $\ast$}]{t,  }\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ T $>$ $\ast$}]{ignored\+Node = {\ttfamily nullptr} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{EdmondsKarp_8h_a47204852e1378eb19afa6158aecc7c50}\label{EdmondsKarp_8h_a47204852e1378eb19afa6158aecc7c50}} 
+\index{EdmondsKarp.h@{EdmondsKarp.h}!verificarSucesso@{verificarSucesso}}
+\index{verificarSucesso@{verificarSucesso}!EdmondsKarp.h@{EdmondsKarp.h}}
+\doxysubsubsection{\texorpdfstring{verificarSucesso()}{verificarSucesso()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+bool verificar\+Sucesso (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ T $>$ $\ast$}]{g,  }\item[{const T \&}]{sink\+Id,  }\item[{\mbox{\hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}}}]{num\+Submissoes,  }\item[{\mbox{\hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}}}]{min\+Reviews }\end{DoxyParamCaption})}
+
