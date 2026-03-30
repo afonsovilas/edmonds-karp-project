@@ -11,27 +11,39 @@ Para identificar revisores críticos (pontos únicos de falha), avaliamos a robu
 3.	Executar o algoritmo de Edmonds-Karp nesta rede modificada para calcular o novo fluxo máximo.
 4.	Comparar o fluxo máximo resultante com o número total de revisões necessárias (NumSubmissoes $\times$ MinReviews). Se o fluxo máximo for inferior a este limite, o revisor desativado é assinalado como um "risco crítico".
 5.	Restaurar o nó do revisor e avançar para o próximo.
+
    
 2. Discussão da Complexidade
+   
 O algoritmo de Edmonds-Karp tem uma complexidade temporal de O(V x E^2), onde V é o número de vértices e E é o número de arestas.
 Nesta variante, executamos o algoritmo de fluxo máximo exatamente R vezes, onde R é o número total de revisores. Portanto, a complexidade temporal global desta análise de risco é O(R x V x E^2).
 Como R <= V, no pior cenário absoluto, a complexidade é limitada por O(V^2 x E^2). Esta complexidade é perfeitamente viável para a verificação de um único revisor em falta (K=1).
 
-3. Exemplo de Input Não-Trivial e Output
+4. Exemplo de Input Não-Trivial e Output
+5. 
 •	Cenário de Input: * 3 Submissões (S1, S2, S3), necessitando de 1 revisão cada. (Fluxo total necessário = 3).
+
   o	3 Revisores (R1, R2, R3).
+  
   o	Capacidades: R1 pode fazer 2 revisões. R2 e R3 só podem fazer 1 revisão cada.
+  
   o	Ligações (Matches possíveis):
+  
   	S1 está ligada a R1 e R2.
+  
   	S2 está ligada a R1 e R3.
+  
   	S3 está ligada a R2 e R3.
+  
 •	Execução: Se removermos o R1, os revisores restantes são R2 (máx 1) e R3 (máx 1). Embora S1, S2 e S3 continuem a ter arestas que as ligam a revisores disponíveis, a capacidade absoluta total da rede restante cai para $1 + 1 = 2$.
+
 •	Output: O sistema precisa de 3 revisões, mas apenas consegue fornecer 2. A atribuição é impossível. O algoritmo devolve corretamente o R1 como um revisor crítico.
 ________________________________________
 
 Formulação Básica com Análise de Risco = K (K > 1)
 
 1. Esboço da Abordagem
+   
 Para analisar o risco de $K$ revisores falharem em simultâneo, não podemos simplesmente testar os revisores um a um. Precisamos de combinar um Algoritmo de Geração de Combinações com a nossa base de Fluxo Máximo. A abordagem conceptual é:
     1.	Utilizar um algoritmo para gerar todas as combinações possíveis de tamanho $K$ a partir do conjunto total de $N$ revisores.
     2.	Para cada combinação (grupo) gerada, desativar temporariamente todos os $K$ nós na rede de fluxo em simultâneo.
@@ -40,7 +52,7 @@ Para analisar o risco de $K$ revisores falharem em simultâneo, não podemos sim
     5.	Restaurar os $K$ nós e avançar para a próxima combinação.
 
 
-2. Discussão da Complexidade
+3. Discussão da Complexidade
 O número de formas de escolher K revisores de um total de N é dado pelo coeficiente binomial N!/(K!(N-K)!).
 Para cada uma destas combinações, temos de executar o algoritmo de Edmonds-Karp, que demora O(V x E^2).
 Assim, a complexidade temporal teórica total é $O(N!/(K!(N-K)!) x V x E^2).
