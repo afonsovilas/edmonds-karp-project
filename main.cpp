@@ -76,9 +76,41 @@ int main(int argc, char* argv[]) {
                 int SINK_ID = 999999;
 
                 // ==========================================================
-                // TODO: PESSOA 1 - CONSTRUÇÃO DO GRAFO
+                // CONSTRUÇÃO DO GRAFO (Ligar os dados ao Edmonds-Karp)
                 // ==========================================================
-                cout << "A construir o grafo (A cargo da Pessoa 1)..." << endl;
+                cout << "A construir a Rede de Fluxo..." << endl;
+
+                // 1. Adicionar os nós virtuais (Source e Sink)
+                conferenciaGraph.addVertex(SOURCE_ID);
+                conferenciaGraph.addVertex(SINK_ID);
+
+                // 2. Adicionar Revisores e ligar à SOURCE
+                // Capacidade = maxReviewsPerReviewer
+                for (const auto& r : revisores) {
+                    conferenciaGraph.addVertex(r.id);
+                    addFlowEdge(&conferenciaGraph, SOURCE_ID, r.id, config.maxReviewsPerReviewer);
+                }
+
+                // 3. Adicionar Submissões e ligar ao SINK
+                // Capacidade = minReviewsPerSubmission
+                for (const auto& s : submissoes) {
+                    conferenciaGraph.addVertex(s.id);
+                    addFlowEdge(&conferenciaGraph, s.id, SINK_ID, config.minReviewsPerSubmission);
+                }
+
+                // 4. Fazer os Matches (Ligar Revisores a Artigos compatíveis)
+                // Capacidade = 1 (um revisor só revê o mesmo artigo 1 vez)
+                int matchesPossiveis = 0;
+                for (const auto& r : revisores) {
+                    for (const auto& s : submissoes) {
+                        if (r.primaryExpertise == s.primaryDomain) {
+                            addFlowEdge(&conferenciaGraph, r.id, s.id, 1);
+                            matchesPossiveis++;
+                        }
+                    }
+                }
+                cout << "-> Arestas de Match criadas: " << matchesPossiveis << endl;
+                // ==========================================================
 
                 // A Pessoa 1 deve adicionar os nós e usar a função addFlowEdge()
                 // definida no EdmondsKarp.h para ligar:
