@@ -6,6 +6,9 @@
 #include "Parser.h"
 #include "models.h"
 
+#include "EdmondsKarp.h"
+#include "data_structures/Graph.h"
+
 using namespace std;
 
 int main(int argc, char* argv[]) {
@@ -64,7 +67,44 @@ int main(int argc, char* argv[]) {
                 escreverOutput(config.outputFileName, dummyData);
             }
             else if (opcao == 2) {
-                cout << "Ainda em construcao pela Pessoa 1..." << endl;
+                cout << "\n--- INICIAR ATRIBUICAO DE REVISORES ---" << endl;
+
+                Graph<int> conferenciaGraph;
+
+                // Definimos IDs estáticos para a SOURCE e SINK para não se misturarem com Revisores/Artigos
+                int SOURCE_ID = 0;
+                int SINK_ID = 999999;
+
+                // ==========================================================
+                // TODO: PESSOA 1 - CONSTRUÇÃO DO GRAFO
+                // ==========================================================
+                cout << "A construir o grafo (A cargo da Pessoa 1)..." << endl;
+
+                // A Pessoa 1 deve adicionar os nós e usar a função addFlowEdge()
+                // definida no EdmondsKarp.h para ligar:
+                // SOURCE -> Revisores -> Submissões -> SINK
+
+                // ==========================================================
+                // AS TUAS TAREFAS (T1 e T2) ENTRAM EM AÇÃO AQUI
+                // ==========================================================
+
+                cout << "A calcular o fluxo maximo (Edmonds-Karp)..." << endl;
+                // Tarefa 1: Corre o algoritmo no grafo construído pela Pessoa 1
+                edmondsKarp(&conferenciaGraph, SOURCE_ID, SINK_ID);
+
+                cout << "A extrair as atribuicoes geradas..." << endl;
+                // Tarefa 2: Retira os pares (Revisor-Artigo) onde o fluxo é > 0
+                vector<Assignment> atribuicoes = extrairAtribuicoes(&conferenciaGraph, revisores);
+
+                // Tarefa 2: Verifica se o fluxo no SINK cumpre o mínimo exigido
+                verificarSucesso(&conferenciaGraph, SINK_ID, submissoes.size(), config.minReviewsPerSubmission);
+
+                // Escreve os resultados finais no ficheiro CSV usando a função do Parser.cpp
+                if (!atribuicoes.empty()) {
+                    escreverOutput(config.outputFileName, atribuicoes);
+                } else {
+                    cout << "Aviso: Nenhuma atribuicao foi gerada (O grafo pode estar vazio)." << endl;
+                }
             }
             else if (opcao == 3) {
                 cout << "Ainda em construcao pela Pessoa 1..." << endl;

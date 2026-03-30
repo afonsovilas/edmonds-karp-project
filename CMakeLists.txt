@@ -3,4 +3,5 @@ project(DA_project)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(DA_project main.cpp Parser.cpp)
+add_executable(DA_project main.cpp Parser.cpp
+        EdmondsKarp.h)
