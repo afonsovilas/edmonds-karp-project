@@ -139,7 +139,30 @@ int main(int argc, char* argv[]) {
                 }
             }
             else if (opcao == 3) {
-                cout << "Ainda em construcao pela Pessoa 1..." << endl;
+                if (config.riskAnalysis == 1) { // Verifica a flag do config lido do ficheiro
+                    cout << "\n--- INICIAR ANALISE DE RISCO ---" << endl;
+
+                    // Nota: O teu colega tem de ter construído a 'conferenciaGraph' antes!
+                    // Esta variável tem de estar acessível aqui, ou têm de a construir globalmente.
+                    int SOURCE_ID = 0;
+                    int SINK_ID = 999999;
+
+                    cout << "A testar remocao individual de revisores..." << endl;
+
+                    vector<int> emRisco = analiseDeRisco(&conferenciaGraph, SOURCE_ID, SINK_ID, revisores, submissoes.size(), config.minReviewsPerSubmission);
+
+                    cout << "\n=== RESULTADOS DA ANALISE DE RISCO ===" << endl;
+                    if (emRisco.empty()) {
+                        cout << "Nenhum revisor e critico. O sistema e robusto!" << endl;
+                    } else {
+                        cout << "Foram encontrados " << emRisco.size() << " revisores de risco:" << endl;
+                        for (int id : emRisco) {
+                            cout << "-> Revisor ID: " << id << endl;
+                        }
+                    }
+                } else {
+                    cout << "A Analise de Risco esta desativada no ficheiro de configuracao (RiskAnalysis = 0)." << endl;
+                }
             }
         }
     } else {
