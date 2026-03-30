@@ -141,3 +141,38 @@ void escreverOutput(const string& filename, vector<Assignment>& assignments) {
     file.close();
     cout << "-> Ficheiro " << filename << " gerado com sucesso!\n";
 }
+
+// Ordenacao para as Missing Reviews
+bool sortByMissingSubmission(const MissingReview& a, const MissingReview& b) {
+    return a.submissionId < b.submissionId;
+}
+
+void escreverMissingReviews(const string& filename, vector<MissingReview>& missing) {
+    ofstream file(filename, ios::app); // ios::app para não apagar o ficheiro existente
+    if (!file.is_open()) return;
+
+    sort(missing.begin(), missing.end(), sortByMissingSubmission);
+
+    file << "\n#SubmissionId,Domain,MissingReviews\n";
+    for (const auto& m : missing) {
+        file << m.submissionId << ", " << m.domain << ", " << m.missingCount << "\n";
+    }
+
+    file.close();
+}
+
+void escreverRiskAnalysis(const string& filename, int riskLevel, vector<int>& riskyReviewers) {
+    ofstream file(filename, ios::app);
+    if (!file.is_open()) return;
+
+    sort(riskyReviewers.begin(), riskyReviewers.end());
+
+    file << "\n#Risk Analysis: " << riskLevel << "\n";
+    for (size_t i = 0; i < riskyReviewers.size(); i++) {
+        file << riskyReviewers[i];
+        if (i < riskyReviewers.size() - 1) file << ", ";
+    }
+    file << "\n";
+
+    file.close();
+}

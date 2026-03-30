@@ -13,4 +13,7 @@ void lerFicheiro(const std::string& filename, std::vector<Submission>& submissoe
 
 void escreverOutput(const std::string& filename, std::vector<Assignment>& assignments);
 
+void escreverMissingReviews(const std::string& filename, std::vector<MissingReview>& missing);
+
+void escreverRiskAnalysis(const std::string& filename, int riskLevel, std::vector<int>& riskyReviewers);
 #endif //PROJECT1SAMPLEDATASETS_PARSER_H

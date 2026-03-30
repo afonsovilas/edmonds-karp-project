@@ -44,5 +44,10 @@ struct Assignment {
     int reviewerId;
     int matchDomain;
 };
+struct MissingReview {
+    int submissionId;
+    int domain;
+    int missingCount;
+};
 
 #endif //PROJECT1SAMPLEDATASETS_MODELS_H
