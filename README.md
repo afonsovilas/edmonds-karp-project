@@ -1,84 +1,76 @@
-Abordagens face às Análises de Risco
+Reviewer Assignment Tool (Max-Flow)
 
+Assignment of reviewers to submissions modelled as a maximum-flow problem and solved with the Edmonds-Karp algorithm. This document describes the risk analysis module, which checks whether the assignment still works when one or more reviewers become unavailable.
 
+Developed for the Algorithm Design (Desenho de Algoritmos) course of the Bachelor in Informatics and Computing Engineering at the Faculty of Engineering of the University of Porto (FEUP), 2025/2026.
 
-Análise de Risco para K = 1
-1. Abordagem
-Para identificar revisores críticos (pontos únicos de falha), avaliamos a robustez da nossa rede de fluxo simulando a ausência de cada revisor individualmente. A abordagem consiste nos seguintes passos:
-1.	Iterar pela lista de todos os revisores disponíveis.
-2.	Para cada revisor, "desativar" temporariamente o seu vértice correspondente no grafo (na nossa implementação, conseguimos isto de forma eficiente instruindo o algoritmo BFS a ignorar este nó específico,
-   evitando o custo computacional de remover e voltar a adicionar arestas fisicamente).
-3.	Executar o algoritmo de Edmonds-Karp nesta rede modificada para calcular o novo fluxo máximo.
-4.	Comparar o fluxo máximo resultante com o número total de revisões necessárias (NumSubmissoes $\times$ MinReviews). Se o fluxo máximo for inferior a este limite, o revisor desativado é assinalado como um "risco crítico".
-5.	Restaurar o nó do revisor e avançar para o próximo.
+Authors: Afonso Vilas, Guilherme Pinho
 
-   
-2. Discussão da Complexidade
-   
-O algoritmo de Edmonds-Karp tem uma complexidade temporal de O(V x E^2), onde V é o número de vértices e E é o número de arestas.
-Nesta variante, executamos o algoritmo de fluxo máximo exatamente R vezes, onde R é o número total de revisores. Portanto, a complexidade temporal global desta análise de risco é O(R x V x E^2).
-Como R <= V, no pior cenário absoluto, a complexidade é limitada por O(V^2 x E^2). Esta complexidade é perfeitamente viável para a verificação de um único revisor em falta (K=1).
+Risk analysis
 
-4. Exemplo de Input Não-Trivial e Output
-5. 
-•	Cenário de Input: * 3 Submissões (S1, S2, S3), necessitando de 1 revisão cada. (Fluxo total necessário = 3).
+An assignment is feasible when the maximum flow equals the total number of reviews required:
 
-  o	3 Revisores (R1, R2, R3).
-  
-  o	Capacidades: R1 pode fazer 2 revisões. R2 e R3 só podem fazer 1 revisão cada.
-  
-  o	Ligações (Matches possíveis):
-  
-  	S1 está ligada a R1 e R2.
-  
-  	S2 está ligada a R1 e R3.
-  
-  	S3 está ligada a R2 e R3.
-  
-•	Execução: Se removermos o R1, os revisores restantes são R2 (máx 1) e R3 (máx 1). Embora S1, S2 e S3 continuem a ter arestas que as ligam a revisores disponíveis, a capacidade absoluta total da rede restante cai para $1 + 1 = 2$.
+required flow = number of submissions × minimum reviews per submission
 
-•	Output: O sistema precisa de 3 revisões, mas apenas consegue fornecer 2. A atribuição é impossível. O algoritmo devolve corretamente o R1 como um revisor crítico.
-________________________________________
+A reviewer (or group of reviewers) is critical if, once removed, the maximum flow falls below this value.
 
-Formulação Básica com Análise de Risco = K (K > 1)
+K = 1: single points of failure
+Approach
+Iterate over every reviewer.
+Temporarily disable the reviewer's vertex. Instead of physically removing and re-adding edges, the BFS used by Edmonds-Karp simply ignores that vertex, which avoids rebuilding the graph.
+Run Edmonds-Karp on the modified network to compute the new maximum flow.
+If the maximum flow is lower than the required flow, mark the reviewer as critical.
+Restore the vertex and move on to the next reviewer.
+Complexity
+Edmonds-Karp runs in O(V · E²), where V is the number of vertices and E the number of edges.
+It is executed once per reviewer, i.e. R times, so the analysis runs in O(R · V · E²).
+Since R ≤ V, the worst case is O(V² · E²), which is perfectly practical for checking a single missing reviewer.
+Example
 
-1. Esboço da Abordagem
-   
-Para analisar o risco de $K$ revisores falharem em simultâneo, não podemos simplesmente testar os revisores um a um. Precisamos de combinar um Algoritmo de Geração de Combinações com a nossa base de Fluxo Máximo. A abordagem conceptual é:
-    1.	Utilizar um algoritmo para gerar todas as combinações possíveis de tamanho $K$ a partir do conjunto total de $N$ revisores.
-    2.	Para cada combinação (grupo) gerada, desativar temporariamente todos os $K$ nós na rede de fluxo em simultâneo.
-    3.	Executar o algoritmo de Edmonds-Karp para calcular o novo fluxo máximo.
-    4.	Se o fluxo máximo for inferior ao total de revisões exigidas, assinalar esse grupo específico de $K$ revisores como um "grupo de risco".
-    5.	Restaurar os $K$ nós e avançar para a próxima combinação.
+Input: 3 submissions, each requiring 1 review (required flow = 3).
 
+Reviewer	Capacity	Can review
+R1	2	S1, S2
+R2	1	S1, S3
+R3	1	S2, S3
 
-3. Discussão da Complexidade
-O número de formas de escolher K revisores de um total de N é dado pelo coeficiente binomial N!/(K!(N-K)!).
-Para cada uma destas combinações, temos de executar o algoritmo de Edmonds-Karp, que demora O(V x E^2).
-Assim, a complexidade temporal teórica total é $O(N!/(K!(N-K)!) x V x E^2).
-Como N!/(K!(N-K)!) se comporta como O(N^K) para K pequenos, a complexidade cresce de forma polinomial em relação ao número de revisores, mas de forma exponencial em relação a K.
-Para um dataset real com centenas de revisores, mesmo um K=3 resultaria em milhões de execuções do Edmonds-Karp, tornando esta abordagem de força bruta computacionalmente proibitiva.
+Execution: without R1, only R2 and R3 remain. Every submission is still connected to an available reviewer, but the total remaining capacity is 1 + 1 = 2.
 
+Output: 3 reviews are needed but only 2 can be provided, so the assignment becomes impossible. The algorithm correctly reports R1 as a critical reviewer.
 
-4. Exemplo de Input Não-Trivial e Output
-   
-Este exemplo demonstra um sistema que é perfeitamente robusto a qualquer falha individual (K=1), mas que entra em colapso quando um par específico falha ($K=2$).
+K > 1: simultaneous failures
+Approach
 
-•	Cenário de Input:
-  o	3 Submissões (S1, S2, S3), necessitando de 1 revisão cada. (Fluxo total necessário = 3).
+Testing reviewers one at a time is no longer enough. The max-flow check is combined with a combination generator:
 
-  o	4 Revisores (R1, R2, R3, R4), cada um com uma capacidade máxima de 1 revisão.
-  
-  o	Ligações (Matches possíveis):
-  
-  	S1 está ligada a R1 e R2.
-  
-  	S2 está ligada a R3 e R4.
-  
-  	S3 está ligada a R1 e R4.
-  
-•	Execução (Verificação $K=1$): Se o R1 faltar sozinho, S1 usa R2, e S3 usa R4. (Fluxo = 3, Sucesso). Se o R4 faltar sozinho, S2 usa R3, e S3 usa R1. (Fluxo = 3, Sucesso). O sistema sobrevive a qualquer ausência isolada.
+Generate every combination of K reviewers out of the N available.
+For each combination, temporarily disable all K vertices at once.
+Run Edmonds-Karp to compute the new maximum flow.
+If the maximum flow is lower than the required flow, mark that group as a risk group.
+Restore the K vertices and move on to the next combination.
+Complexity
+The number of groups is the binomial coefficient C(N, K) = N! / (K! (N − K)!).
+Each group requires one run of Edmonds-Karp, O(V · E²).
+Total: O(C(N, K) · V · E²).
+For small K, C(N, K) grows as O(N^K): polynomial in the number of reviewers, but exponential in K.
+With hundreds of reviewers, even K = 3 already means hundreds of thousands to millions of Edmonds-Karp runs, which makes this brute-force approach impractical for large datasets.
+Example
 
-•	Execução (Verificação $K=2$): O algoritmo testa a combinação {R1, R4}. Se tanto o R1 como o R4 estiverem ausentes, os únicos revisores restantes são R2 e R3. A capacidade total da rede desce para 2, o que é insuficiente para cobrir as 3 submissões.
+This example shows a network that survives any single absence (K = 1) but fails when specific pairs of reviewers are missing (K = 2), even though the remaining capacity would be enough.
 
-•	Output: O algoritmo identifica e devolve corretamente o par {R1, R4} como um grupo de risco crítico, evidenciando a correção de combinar a pesquisa combinatória com o fluxo em redes.
+Input: 2 submissions, each requiring 1 review (required flow = 2), and 4 reviewers, each with capacity 1.
+
+Submission	Can be reviewed by
+S1	R1, R2
+S2	R3, R4
+
+Execution (K = 1): every submission has two possible reviewers, so removing any single reviewer still leaves a valid assignment. The flow is always 2.
+
+Execution (K = 2): the algorithm tests all C(4, 2) = 6 pairs. In every case, 2 reviewers remain, so the total capacity (2) still matches the required flow. However:
+
+Missing pair	Max flow	Result
+{R1, R2}	1	S1 has no available reviewer → critical
+{R3, R4}	1	S2 has no available reviewer → critical
+{R1, R3}, {R1, R4}, {R2, R3}, {R2, R4}	2	Valid assignment
+
+Output: the algorithm reports {R1, R2} and {R3, R4} as critical risk groups. The failure comes from the structure of the network, not from a lack of total capacity, which is why combinatorial search must be combined with network flow when K > 1.
